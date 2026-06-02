@@ -1,35 +1,22 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
 #include "VertexArray.h"
+#include "Shared.h"
 
-struct Vertex {
-    float x = 0;
-    float y = 0;
-    float z = 0;
-};
+      VertexArray::VertexArray(VertexBuffer vbo, ElementArray ebo)
+      {
+          glGenVertexArrays(1, &vao);
+          bind();
+          vbo.bind();
+          ebo.bind();
+          unbind();
+          vbo.unbind();
+          ebo.unbind();
+      }
+      void VertexArray::bind()
+      {
+          glBindVertexArray(vao);
 
-class VertexArray
-{
-  public:
-      unsigned int id;
-      VertexArray()
-      {
-          glGenVertexArrays(1, &id);
       }
-      void bind()
+      void VertexArray::unbind()
       {
-          glBindBuffer(GL_ARRAY_BUFFER, id);
+          glBindVertexArray(0);
       }
-      void unbind()
-      {
-          glBindBuffer(GL_ARRAY_BUFFER, 0);
-      }
-      // void setVertexBuffer(VertexBuffer vbo)
-      // {
-      //     this->bind();
-      //     vbo.bind();
-      //     this->unbind();
-      //     vbo.unbind();
-      // }
-
-};

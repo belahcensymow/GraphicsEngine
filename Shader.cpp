@@ -59,8 +59,7 @@ void Shader::recompileShaders() {
     glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &length);
     char *infoLog = new char[length];
     glGetShaderInfoLog(fragmentShader, length, NULL, infoLog);
-    std::cout << "[ ERROR ] Fragment Shader compilation error: " << infoLog
-              << std::endl;
+    std::cout << "[ ERROR ] Fragment Shader compilation error: " << infoLog << std::endl;
     delete[] infoLog;
   }
   program = glCreateProgram();
@@ -75,8 +74,7 @@ void Shader::recompileShaders() {
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
     char *infoLog = new char[length];
     glGetProgramInfoLog(program, length, NULL, infoLog);
-    std::cout << "[ ERROR ] Shader Program compilation error: " << infoLog
-              << std::endl;
+    std::cout << "[ ERROR ] Shader Program compilation error: " << infoLog << std::endl;
     delete[] infoLog;
   }
 }
@@ -88,6 +86,6 @@ void Shader::bind()
 }
 void Shader::unbind() { glUseProgram(0); }
 Shader::~Shader() {
-  Shader::unbind();
-  glDeleteProgram(program);
+    Shader::unbind();
+    glDeleteProgram(program);
 }

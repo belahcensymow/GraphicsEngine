@@ -15,11 +15,10 @@ class Shader
         std::string fragmentString = "";
         const char* vertexShaderSource = "";
         const char* fragmentShaderSource = "";
-
+    public:
         unsigned int vertexShader   = 0;
         unsigned int fragmentShader = 0;
         unsigned int program = 0;
-    public:
         Shader(std::string shaderPath);
         void recompileShaders();
         void bind();

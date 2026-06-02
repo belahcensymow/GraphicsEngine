@@ -1,28 +1,41 @@
 #include "VertexBuffer.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <cstddef>
+#include "Shared.h"
+#include <vector>
 
-struct VertexArray {
-  float x;
-  float y;
-  float z;
-};
+unsigned long glSize(unsigned int type)
+{
+    switch (type) {
+        case GL_FLOAT:          return sizeof(float);
+        case GL_INT:            return sizeof(int);
+        case GL_UNSIGNED_INT:   return sizeof(unsigned int);
+        default: {
+            std::cout << "[ ERROR ] Type not yet implemented!!" << std::endl;
+            return 0;
+        };
+    }
+}
 
-class VertexBuffer {
-public:
-  unsigned int vbo;
-  VertexBuffer(VertexArray verticies) {
+VertexBuffer::VertexBuffer(std::vector<Vertex>& vertices, std::vector<VertexLayout>& verticesLayout) : vertices(vertices), verticesLayout(verticesLayout)
+{
     glGenBuffers(1, &vbo);
+}
+void VertexBuffer::bind()
+{
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verticies), &verticies, GL_STATIC_DRAW);
-    glVertexAttribPointer(0, sizeof(verticies) / sizeof(float), GL_FLOAT,
-                          GL_FALSE, 3 * sizeof(float), NULL);
-    glEnableVertexAttribArray(0);
-  }
-  void bind() {
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    // glVertexAttribPointer(0, sizeof() / sizeof(float), GL_FLOAT, GL_FALSE, 3 * sizeof(float), NULL);
-    glEnableVertexAttribArray(0);
-  }
-};
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+    int stride = 0;
+    for (VertexLayout layout : verticesLayout) {
+        stride += layout.count * glSize(layout.type);
+    }
+    unsigned long offset = 0;
+    for (VertexLayout layout : verticesLayout) {
+        glVertexAttribPointer(layout.location, layout.count, layout.type, GL_FALSE, stride, (void*)offset);
+        glEnableVertexAttribArray(layout.location);
+        std::cout << "location: " << layout.location << " | count: " << layout.count << " | stride: " << stride << " | offset: " << offset << std::endl;
+        offset += layout.count * glSize(layout.type);
+    }
+}
+void VertexBuffer::unbind()
+{
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
