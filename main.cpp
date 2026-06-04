@@ -1,6 +1,7 @@
 #include "Shared.h"
 #include "VertexArray.h"
 #include "Shader.h"
+#include "Texture.h"
 #include <GL/gl.h>
 #include <vector>
 
@@ -23,33 +24,35 @@ int main()
     std::vector<unsigned int> indices =
     {
         0, 1, 2,
+        0, 2, 3
     };
 
     std::vector<Vertex> vertices = {
-        {{-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}},
-        {{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}},
-        {{ 0.0f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}},
+        {{ 0.5f,  0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
+        {{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
+        {{-0.5f, -0.5f, 0.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 0.0f}},
+        {{-0.5f,  0.5f, 0.0f}, {1.0f, 1.0f, 0.0f}, {0.0f, 1.0f}}
     };
     std::vector<VertexLayout> verticesLayout = {
         {3, GL_FLOAT, 0},
         {3, GL_FLOAT, 1},
+        {2, GL_FLOAT, 2},
     };
 
     VertexBuffer vbo(vertices, verticesLayout);
     ElementArray ebo(indices);
     VertexArray vao(vbo, ebo);
     Shader shader("shaders.glsl");
-    vao.unbind();
-    shader.unbind();
-
-
     vao.bind();
     shader.bind();
+
+    Texture texture("container.jpg");
+    texture.bind();
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        // glDrawArrays(GL_TRIANGLES, 0, 3);
-        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, NULL);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

@@ -10,6 +10,7 @@ struct Vertex
 {
     float coordinates[3];
     float color[3];
+    float texture[2];
 };
 
 struct VertexLayout
