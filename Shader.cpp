@@ -89,3 +89,7 @@ Shader::~Shader() {
     Shader::unbind();
     glDeleteProgram(program);
 }
+void Shader::setTexture(Texture& texture)
+{
+    glUniform1i(glGetUniformLocation(program, texture.textureUniformName.c_str()), texture.textureUnit - GL_TEXTURE0);
+}

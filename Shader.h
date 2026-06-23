@@ -1,4 +1,5 @@
 #include <string>
+#include "Texture.h"
 enum ShaderType
 {
     VERTEX_SHADER = 0,
@@ -24,4 +25,5 @@ class Shader
         void bind();
         void unbind();
         ~Shader();
+        void setTexture(Texture& texture);
 };

@@ -15,14 +15,19 @@ void main()
 #Fragment Shader
 #version 430 core
 in vec3 aColors;
-out vec4 fragColor;
-
 in vec2 TexCoord;
-uniform sampler2D sampledTexture;
+out vec4 fragColor;
+uniform sampler2D texture1;
+uniform sampler2D texture2;
 
 void main()
 {
     // FragColor = vec4(1 - 0.176, 1 - 0.408, 1 - 0.769, 1.0);
     // fragColor = vec4(aColors, 1.0f);
-    fragColor = texture(sampledTexture, TexCoord);
+    fragColor = mix(
+            texture(texture1, TexCoord) * vec4(aColors, 1.0f),
+            texture(texture2, TexCoord) * vec4(aColors, 1.0f),
+            0.5f
+        );
+    // fragColor = texture(texture2, TexCoord) * vec4(aColors, 1.0f);
 }

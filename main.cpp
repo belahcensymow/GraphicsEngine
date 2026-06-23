@@ -45,10 +45,12 @@ int main()
     Shader shader("shaders.glsl");
     vao.bind();
     shader.bind();
-
-    Texture texture("container.jpg");
-    texture.bind();
-
+    Texture texture1("container.jpg", "texture1", 0);
+    Texture texture2("awesomeface.png", "texture2", 1);
+    shader.setTexture(texture1);
+    shader.setTexture(texture2);
+    texture1.bind();
+    texture2.bind();
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
