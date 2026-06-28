@@ -1,11 +1,8 @@
 #include "Shared.h"
-#include "VertexArray.h"
-#include "Shader.h"
-#include "Texture.h"
 #include <GL/gl.h>
 #include <vector>
-
-// #include <iostream>
+#include "Object3D.h"
+#include "Mathematics.h"
 
 int main()
 {
@@ -21,12 +18,12 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glewInit();
+
     std::vector<unsigned int> indices =
     {
         0, 1, 2,
         0, 2, 3
     };
-
     std::vector<Vertex> vertices = {
         {{ 0.5f,  0.5f, 0.0f}, {1.0f, 0.0f, 0.0f}, {1.0f, 1.0f}},
         {{ 0.5f, -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f}, {1.0f, 0.0f}},
@@ -38,23 +35,22 @@ int main()
         {3, GL_FLOAT, 1},
         {2, GL_FLOAT, 2},
     };
-
-    VertexBuffer vbo(vertices, verticesLayout);
-    ElementArray ebo(indices);
-    VertexArray vao(vbo, ebo);
-    Shader shader("shaders.glsl");
-    vao.bind();
-    shader.bind();
+    Object3D cube(vertices, verticesLayout, indices, "shaders.glsl");
+    cube.show();
     Texture texture1("container.jpg", "texture1", 0);
     Texture texture2("awesomeface.png", "texture2", 1);
-    shader.setTexture(texture1);
-    shader.setTexture(texture2);
-    texture1.bind();
-    texture2.bind();
+    cube.setTexture(texture1);
+    cube.setTexture(texture2);
+
+    // cube.rotate(45, 45, 45);
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
+        cube.rotate(45, 45, 45);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+        cube.rotate(-45, -45, -45);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

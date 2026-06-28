@@ -5,9 +5,10 @@ layout(location = 1) in vec3 aColor;
 layout(location = 2) in vec2 aTexCoord;
 out vec3 aColors;
 out vec2 TexCoord;
+uniform mat4 SRTMatrix;
 void main()
 {
-    gl_Position = vec4(aPos, 1.0f);
+    gl_Position = SRTMatrix * vec4(aPos, 1.0f);
     aColors = aColor;
     TexCoord = aTexCoord;
 }
@@ -25,8 +26,8 @@ void main()
     // FragColor = vec4(1 - 0.176, 1 - 0.408, 1 - 0.769, 1.0);
     // fragColor = vec4(aColors, 1.0f);
     fragColor = mix(
-            texture(texture1, TexCoord) * vec4(aColors, 1.0f),
-            texture(texture2, TexCoord) * vec4(aColors, 1.0f),
+            texture(texture1, TexCoord),
+            texture(texture2, TexCoord),
             0.5f
         );
     // fragColor = texture(texture2, TexCoord) * vec4(aColors, 1.0f);
