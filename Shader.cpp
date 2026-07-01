@@ -7,7 +7,6 @@ Shader::Shader(std::string shaderPath) {
   Shader::shaderPath = shaderPath;
   Shader::recompileShaders();
 }
-
 void Shader::recompileShaders() {
   std::ifstream file(this->shaderPath);
   if (!file.is_open())
@@ -78,12 +77,7 @@ void Shader::recompileShaders() {
     delete[] infoLog;
   }
 }
-void Shader::bind()
-{
-    glUseProgram(program);
-    std::cout << " <---- Vertex Shader ----> \n" << vertexString << std::endl;
-    std::cout << " <---- Fragment Shader ----> \n" << fragmentString << std::endl;
-}
+void Shader::bind() { glUseProgram(program); }
 void Shader::unbind() { glUseProgram(0); }
 Shader::~Shader() {
     Shader::unbind();

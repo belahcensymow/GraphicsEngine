@@ -4,8 +4,16 @@
 #include <vector>
 
 Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, std::string shaderPath):
-vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shaderPath){}
+vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shaderPath)
+{
+    indicesNumber = indices.size();
+}
 
+void Object3D::draw()
+{
+    show();
+    glDrawElements(GL_TRIANGLES, indicesNumber, GL_UNSIGNED_INT, NULL);
+}
 void Object3D::show()
 {
     vbo.bind();
@@ -22,8 +30,10 @@ void Object3D::hide()
 }
 void Object3D::setTexture(Texture texture)
 {
+    shader.bind();
     shader.setTexture(texture);
     texture.bind();
+    shader.unbind();
 }
 void Object3D::removeTexture(Texture texture)
 {
@@ -43,35 +53,35 @@ void Object3D::applySRT()
 }
 void Object3D::SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ)
 {
-    this->scaleX *= scaleX;
-    this->scaleY *= scaleY;
-    this->scaleZ *= scaleZ;
-    this->rotationX += rotationX;
-    this->rotationY += rotationY;
-    this->rotationZ += rotationZ;
-    this->positionX += positionX;
-    this->positionY += positionY;
-    this->positionZ += positionZ;
+    this->scaleX = scaleX;
+    this->scaleY = scaleY;
+    this->scaleZ = scaleZ;
+    this->rotationX = rotateX;
+    this->rotationY = rotateY;
+    this->rotationZ = rotateZ;
+    this->positionX = translateX;
+    this->positionY = translateY;
+    this->positionZ = translateZ;
     applySRT();
 }
 void Object3D::scale(float x, float y, float z)
 {
-    scaleX *= x;
-    scaleY *= y;
-    scaleZ *= z;
+    scaleX = x;
+    scaleY = y;
+    scaleZ = z;
     applySRT();
 }
 void Object3D::rotate(float x, float y, float z)
 {
-    rotationX += x;
-    rotationY += y;
-    rotationZ += z;
+    rotationX = x;
+    rotationY = y;
+    rotationZ = z;
     applySRT();
 }
 void Object3D::translate(float x, float y, float z)
 {
-    positionX += x;
-    positionY += y;
-    positionZ += z;
+    positionX = x;
+    positionY = y;
+    positionZ = z;
     applySRT();
 }
