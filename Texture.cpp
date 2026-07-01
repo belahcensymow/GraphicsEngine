@@ -30,10 +30,7 @@ Texture::Texture(std::string texturePath, std::string uniformName, int location 
         glGenerateMipmap(GL_TEXTURE_2D);
         stbi_image_free(data);
     }
-    else
-    {
-        std::cout << "[ ERROR ] Failed to load texture" << std::endl;
-    }
+    else std::cout << "[ ERROR ] Failed to load texture" << std::endl;
     unbind();
 }
 

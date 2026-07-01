@@ -1,6 +1,7 @@
 #include "Mathematics.h"
 #include "math.h"
 #include <array>
+#include <cmath>
 #include <vector>
 
 std::vector<float> SRT(std::array<float, 3> scale, std::array<float, 3> rotation, std::array<float, 3> translation)
@@ -37,7 +38,6 @@ std::vector<float> SRT(std::array<float, 3> scale, std::array<float, 3> rotation
     m[15] = 1.0f;
     return m;
 }
-
 std::vector<float> scale (std::array<float, 3> Scale) { return SRT(Scale, {0,0,0}, {0,0,0}); }
 std::vector<float> scaleX(float scale) { return SRT({scale,1,1}, {0,0,0}, {0,0,0}); }
 std::vector<float> scaleY(float scale) { return SRT({1,scale,1}, {0,0,0}, {0,0,0}); }
@@ -50,3 +50,16 @@ std::vector<float> translate (std::array<float, 3> translation) { return SRT({1,
 std::vector<float> translateX(float translation) { return SRT({1,1,1}, {0,0,0}, {translation,0,0}); }
 std::vector<float> translateY(float translation) { return SRT({1,1,1}, {0,0,0}, {0,translation,0}); }
 std::vector<float> translateZ(float translation) { return SRT({1,1,1}, {0,0,0}, {0,0,translation}); }
+
+std::vector<float> Projection(float FOV, float aspectRatio, float near, float far)
+{
+    std::vector<float> m(16, 0.0f);
+    float FOVRadian = FOV * 3.14159265359f / 180.0f;
+    float tangent = std::tan(FOV*0.5f);
+    m[0]  = 1.0f / (aspectRatio * tangent);
+    m[5]  = 1.0f / tangent;
+    m[10] = -(far + near) / (far - near);
+    m[11] = -1.0f;
+    m[14] = -(2.0f * far * near) / (far - near);
+    return m;
+}

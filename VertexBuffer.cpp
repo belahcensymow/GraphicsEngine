@@ -31,7 +31,6 @@ void VertexBuffer::bind()
     for (VertexLayout layout : verticesLayout) {
         glVertexAttribPointer(layout.location, layout.count, layout.type, GL_FALSE, stride, (void*)offset);
         glEnableVertexAttribArray(layout.location);
-        std::cout << "location: " << layout.location << " | count: " << layout.count << " | stride: " << stride << " | offset: " << offset << std::endl;
         offset += layout.count * glSize(layout.type);
     }
 }

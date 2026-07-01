@@ -48,7 +48,7 @@ void Object3D::applySRT()
 {
     std::vector<float> SRTMatrix(16);
     SRTMatrix = ::SRT({scaleX, scaleY, scaleZ}, {rotationX, rotationY, rotationZ}, {positionX, positionY, positionZ});
-    int location = glGetUniformLocation(shader.program, "SRTMatrix");
+    int location = glGetUniformLocation(shader.program, "Model");
     glUniformMatrix4fv(location, 1, GL_FALSE, SRTMatrix.data());
 }
 void Object3D::SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ)

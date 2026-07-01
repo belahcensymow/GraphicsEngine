@@ -37,6 +37,14 @@ int main()
         {2, GL_FLOAT, 2},
     };
     Object3D cube(vertices, verticesLayout, indices, "shaders.glsl");
+    cube.translate(0, 0, 0);
+    std::vector<float> View = SRT({1,1,1}, {0,0,0}, {0,0,-1});
+    std::vector<float> Projection = ::Projection(45, 4.0f/3.0f, 0.1f, 100.0f);
+    cube.shader.bind();
+    glUniformMatrix4fv(glGetUniformLocation(cube.shader.program, "View"), 1, GL_FALSE, View.data());
+    glUniformMatrix4fv(glGetUniformLocation(cube.shader.program, "Projection"), 1, GL_FALSE, Projection.data());
+    cube.shader.unbind();
+
     Texture texture1("container.jpg", "texture1", 0);
     Texture texture2("awesomeface.png", "texture2", 1);
     cube.setTexture(texture1);
@@ -44,7 +52,7 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT);
-        cube.SRT(0.5, 0.5, 0.5, glfwGetTime()*10, glfwGetTime()*10, 0, 0.25, 0.25, 0.25);
+        cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0);
         cube.draw();
         glfwSwapBuffers(window);
         glfwPollEvents();
