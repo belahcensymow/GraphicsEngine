@@ -55,7 +55,7 @@ std::vector<float> Projection(float FOV, float aspectRatio, float near, float fa
 {
     std::vector<float> m(16, 0.0f);
     float FOVRadian = FOV * 3.14159265359f / 180.0f;
-    float tangent = std::tan(FOV*0.5f);
+    float tangent = std::tan(FOVRadian*0.5f);
     m[0]  = 1.0f / (aspectRatio * tangent);
     m[5]  = 1.0f / tangent;
     m[10] = -(far + near) / (far - near);
