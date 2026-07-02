@@ -1,7 +1,7 @@
 #include "Texture.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include <math.h>
+#include "Mathematics.h"
 
 class Object3D
 {
@@ -16,13 +16,13 @@ class Object3D
         void draw();
         void show();
         void hide();
-        void setTexture(Texture texture);
-        void removeTexture(Texture texture);
-        std::vector<float> SRT(float scale[3], float rotation[3], float translation[3]);
-        void applySRT(std::vector<float> SRTMatrix, std::string uniformName);
+        void setTexture(Texture &texture);
+        void removeTexture(Texture &texture);
+        void applySRT(std::array<float, 16> SRTMatrix, std::string uniformName);
         void applySRT();
-        void SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ);
-        void scale(float x, float y, float z);
-        void rotate(float x, float y, float z);
-        void translate(float x, float y, float z);
+        void SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ, TRANSFORMATION_TYPE transformationType = ABSOLUTE);
+        void SRT(std::array<float, 3> scale, std::array<float, 3> rotation, std::array<float, 3> translation, TRANSFORMATION_TYPE transformationType);
+        void scale(float x, float y, float z, TRANSFORMATION_TYPE transformationType = ABSOLUTE);
+        void rotate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = ABSOLUTE);
+        void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = ABSOLUTE);
 };

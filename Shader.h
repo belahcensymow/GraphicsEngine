@@ -1,11 +1,5 @@
 #include <string>
 #include "Texture.h"
-enum ShaderType
-{
-    VERTEX_SHADER = 0,
-    FRAGMENT_SHADER = 1,
-    UNDEFINED_SHADER = 2,
-};
 
 class Shader
 {

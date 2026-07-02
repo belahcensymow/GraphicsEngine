@@ -67,13 +67,13 @@ void Shader::recompileShaders() {
   glLinkProgram(program);
   glDeleteShader(vertexShader);
   glDeleteShader(fragmentShader);
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+  glGetProgramiv(program, GL_LINK_STATUS, &success);
   if (!success) {
     int length;
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
     char *infoLog = new char[length];
     glGetProgramInfoLog(program, length, NULL, infoLog);
-    std::cout << "[ ERROR ] Shader Program compilation error: " << infoLog << std::endl;
+    std::cout << "[ ERROR ] Shader Program linking error: " << infoLog << std::endl;
     delete[] infoLog;
   }
 }

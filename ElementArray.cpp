@@ -1,5 +1,4 @@
 #include "ElementArray.h"
-#include <vector>
 
 ElementArray::ElementArray(std::vector<unsigned int>& indices)
 {

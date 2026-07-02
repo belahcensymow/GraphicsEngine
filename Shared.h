@@ -21,4 +21,17 @@ struct VertexLayout
     int type;
     int location;
 };
+
+enum ShaderType
+{
+    VERTEX_SHADER = 0,
+    FRAGMENT_SHADER = 1,
+    UNDEFINED_SHADER = 2,
+};
+
+enum TRANSFORMATION_TYPE
+{
+    RELATIVE,
+    ABSOLUTE
+};
 #endif
