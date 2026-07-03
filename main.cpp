@@ -72,11 +72,9 @@ int main()
         {2, GL_FLOAT, 2},
     };
     Object3D cube(vertices, verticesLayout, indices, "shaders.glsl");
-    cube.translate(0,0,0);
-    std::array<float, 16> View = SRT({1,1,1}, {0,0,0}, {0,0,-2});
     std::array<float, 16> Projection = ::Projection(45, 4.0f/3.0f, 0.1f, 100.0f);
+    cube.translate(0, 0, 0);
     cube.shader.bind();
-    // glUniformMatrix4fv(glGetUniformLocation(cube.shader.program, "View"), 1, GL_FALSE, View.data());
     glUniformMatrix4fv(glGetUniformLocation(cube.shader.program, "Projection"), 1, GL_FALSE, Projection.data());
     cube.shader.unbind();
     Texture texture1("container.jpg", "texture1", 0);
@@ -84,10 +82,17 @@ int main()
     cube.setTexture(texture1);
     cube.setTexture(texture2);
     Camera camera;
+    float currentFrame = glfwGetTime();
+    float lastFrame = 0;
+    float deltaTime = 0;
+
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        camera.getInput(cube.shader, window);
+        currentFrame = glfwGetTime();
+        deltaTime = currentFrame - lastFrame;
+        lastFrame = currentFrame;
+        camera.getInput(cube.shader, window, deltaTime);
         // cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0);
         cube.draw();
         glfwSwapBuffers(window);
