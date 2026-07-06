@@ -5,6 +5,24 @@
 #include "Object3D.h"
 #include "Camera.h"
 
+float lastX = 400, lastY = 300;
+float offsetX, offsetY;
+float sensitivity = 0.1f;
+bool mouseFirst = true;
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    if(mouseFirst)
+    {
+        lastX = xpos;
+        lastY = ypos;
+        mouseFirst = false;
+    }
+    offsetX = xpos - lastX;
+    offsetY = lastY - ypos;
+    offsetX *= sensitivity;
+    offsetY *= sensitivity;
+}
+
 int main()
 {
     if(!glfwInit()) return -1;
@@ -20,6 +38,7 @@ int main()
     glfwMakeContextCurrent(window);
     glEnable(GL_DEPTH_TEST);
     glewInit();
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     std::vector<Vertex> vertices = {
         {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
         {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
@@ -85,13 +104,15 @@ int main()
     float currentFrame = glfwGetTime();
     float lastFrame = 0;
     float deltaTime = 0;
-
+    glfwSetCursorPosCallback(window, mouse_callback);
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         currentFrame = glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
+        camera.Rotation[1] = offsetX;
+        camera.Rotation[0] = offsetY;
         camera.getInput(cube.shader, window, deltaTime);
         // cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0);
         cube.draw();

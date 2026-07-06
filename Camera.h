@@ -34,4 +34,5 @@ class Camera
         void lookRight(float sensibility = 2);
         void lookLeft(float sensibility = 2);
 
+        void rotateRelative(float x, float y);
 };

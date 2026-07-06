@@ -23,6 +23,8 @@ void Camera::getInput(Shader &shader, GLFWwindow *window, float &deltaTime)
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  lookDown();
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) lookRight();
     if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)  lookLeft();
+    if(Rotation[0] >= 90) Rotation[0] = 89;
+    else if (Rotation[0] <= -90) Rotation[0] = -89;
     applyView(shader, "View");
 }
 
@@ -96,3 +98,9 @@ void Camera::lookUp(float sensibility) { Rotation[0] += cameraSpeed * sensibilit
 void Camera::lookDown(float sensibility) { Rotation[0] -= cameraSpeed * sensibility; }
 void Camera::lookRight(float sensibility) { Rotation[1] += cameraSpeed * sensibility; }
 void Camera::lookLeft(float sensibility) { Rotation[1] -= cameraSpeed * sensibility; }
+
+void Camera::rotateRelative(float x, float y)
+{
+    Rotation[1] += x;
+    Rotation[0] += y;
+}
