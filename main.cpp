@@ -90,16 +90,27 @@ int main()
         {3, GL_FLOAT, 1},
         {2, GL_FLOAT, 2},
     };
-    Object3D cube(vertices, verticesLayout, indices, "shaders.glsl");
+    Shader shader("texture.glsl");
+    Shader lightShader("shaders.glsl");
+    Object3D cube(vertices, verticesLayout, indices, shader);
+    Object3D lightSource(vertices, verticesLayout, indices, lightShader);
     std::array<float, 16> Projection = ::Projection(45, 4.0f/3.0f, 0.1f, 100.0f);
     cube.translate(0, 0, 0);
-    cube.shader.bind();
-    glUniformMatrix4fv(glGetUniformLocation(cube.shader.program, "Projection"), 1, GL_FALSE, Projection.data());
-    cube.shader.unbind();
+    lightSource.translate(0, 0, 0);
+    lightSource.rotate(45, 30, 0);
+    shader.bind();
+    glUniformMatrix4fv(glGetUniformLocation(shader.program, "Projection"), 1, GL_FALSE, Projection.data());
+    shader.unbind();
+    lightShader.bind();
+    glUniformMatrix4fv(glGetUniformLocation(lightShader.program, "Projection"), 1, GL_FALSE, Projection.data());
+    lightShader.unbind();
     Texture texture1("container.jpg", "texture1", 0);
     Texture texture2("awesomeface.png", "texture2", 1);
     cube.setTexture(texture1);
     cube.setTexture(texture2);
+    lightSource.setTexture(texture1);
+    lightSource.setTexture(texture2);
+
     Camera camera;
     float currentFrame = glfwGetTime();
     float lastFrame = 0;
@@ -113,9 +124,11 @@ int main()
         lastFrame = currentFrame;
         camera.Rotation[1] = offsetX;
         camera.Rotation[0] = offsetY;
-        camera.getInput(cube.shader, window, deltaTime);
+        camera.getInput(shader, window, deltaTime);
+        camera.getInput(lightShader, window, deltaTime);
         // cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0);
         cube.draw();
+        lightSource.draw();
         glfwSwapBuffers(window);
         glfwPollEvents();
     }

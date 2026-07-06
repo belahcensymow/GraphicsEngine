@@ -9,10 +9,10 @@ class Object3D
         VertexBuffer vbo;
         ElementArray ebo;
         VertexArray vao;
-        Shader shader;
+        Shader& shader;
         float scaleX = 1, scaleY = 1, scaleZ = 1, rotationX = 0, rotationY = 0, rotationZ = 0, positionX = 0, positionY = 0, positionZ = 0;
         unsigned int indicesNumber;
-        Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, std::string shaderPath);
+        Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader);
         void draw();
         void show();
         void hide();

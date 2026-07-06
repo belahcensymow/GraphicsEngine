@@ -1,16 +1,18 @@
 #include "Object3D.h"
+#include "Camera.h"
 #include "Texture.h"
 #include "Mathematics.h"
 #include <vector>
 
-Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, std::string shaderPath):
-vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shaderPath)
+Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader):
+vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shader)
 {
     indicesNumber = indices.size();
 }
 
 void Object3D::draw()
 {
+    applySRT();
     show();
     glDrawElements(GL_TRIANGLES, indicesNumber, GL_UNSIGNED_INT, NULL);
 }
