@@ -1,6 +1,7 @@
 #include "Shared.h"
 #include <GL/gl.h>
 #include <GLFW/glfw3.h>
+#include <vector>
 #include "Mathematics.h"
 #include "Object3D.h"
 #include "Camera.h"
@@ -40,42 +41,42 @@ int main()
     glewInit();
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     std::vector<Vertex> vertices = {
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{-0.5f, -0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{-0.5f, -0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-        {{-0.5f,  0.5f,  0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-        {{-0.5f,  0.5f, -0.5f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}}
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {0.0f, 0.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {0.0f, 1.0f}},
+        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {1.0f, 1.0f}},
+        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {1.0f, 1.0f}},
+        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {1.0f, 0.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {0.0f, 0.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {0.0f, 0.0f}},
+        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {1.0f, 1.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {1.0f, 1.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {0.0f, 1.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f,  1.0f},  {0.0f, 0.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {1.0f, 0.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {1.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {0.0f, 1.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {0.0f, 1.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {0.0f, 0.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {-1.0f, 0.0f,  0.0f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {1.0f, 0.0f}},
+        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {0.0f, 0.0f}},
+        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {0.0f, 1.0f}},
+        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {0.0f, 1.0f}},
+        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {1.0f, 1.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {1.0f,  0.0f,  0.0f},  {1.0f, 0.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {0.0f, 1.0f}},
+        {{ 0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {1.0f, 1.0f}},
+        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {1.0f, 0.0f}},
+        {{ 0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {1.0f, 0.0f}},
+        {{-0.5f, -0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {0.0f, 0.0f}},
+        {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f, -1.0f,  0.0f},  {0.0f, 1.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {0.0f, 1.0f}},
+        {{-0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {0.0f, 0.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f,  0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {1.0f, 0.0f}},
+        {{ 0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {1.0f, 1.0f}},
+        {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  1.0f,  0.0f},  {0.0f, 1.0f}}
     };
     std::vector<unsigned int> indices = {
         0 , 1 , 2 ,  3 , 4 , 5 ,
@@ -88,18 +89,21 @@ int main()
     std::vector<VertexLayout> verticesLayout = {
         {3, GL_FLOAT, 0},
         {3, GL_FLOAT, 1},
-        {2, GL_FLOAT, 2},
+        {3, GL_FLOAT, 2},
+        {2, GL_FLOAT, 3},
     };
     Shader shader("texture.glsl");
-    Shader lightShader("shaders.glsl");
+    Shader lightShader("light.glsl");
     Object3D cube(vertices, verticesLayout, indices, shader);
     Object3D lightSource(vertices, verticesLayout, indices, lightShader);
     std::array<float, 16> Projection = ::Projection(45, 4.0f/3.0f, 0.1f, 100.0f);
     cube.translate(0, 0, 0);
-    lightSource.translate(0, 0, 0);
+    lightSource.translate(1.2f, 1.0f, 2.0f);
     lightSource.rotate(45, 30, 0);
+    lightSource.scale(0.2f, 0.2f, 0.2f);
     shader.bind();
     glUniformMatrix4fv(glGetUniformLocation(shader.program, "Projection"), 1, GL_FALSE, Projection.data());
+    glUniform3fv(glGetUniformLocation(shader.program, "lightPos"), 1, lightSource.Position.data());
     shader.unbind();
     lightShader.bind();
     glUniformMatrix4fv(glGetUniformLocation(lightShader.program, "Projection"), 1, GL_FALSE, Projection.data());
@@ -108,8 +112,6 @@ int main()
     Texture texture2("awesomeface.png", "texture2", 1);
     cube.setTexture(texture1);
     cube.setTexture(texture2);
-    lightSource.setTexture(texture1);
-    lightSource.setTexture(texture2);
 
     Camera camera;
     float currentFrame = glfwGetTime();

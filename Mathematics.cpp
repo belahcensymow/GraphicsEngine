@@ -1,7 +1,7 @@
 #include "Mathematics.h"
 #include "math.h"
 #include <array>
-std::array<float, 16> SRT(std::array<float, 3> scale, std::array<float, 3> rotation, std::array<float, 3> translation)
+std::array<float, 16> SRT(const std::array<float, 3>& scale, const std::array<float, 3>& rotation, const std::array<float, 3>& translation)
 {
     std::array<float, 16> m;
     float radX = rotation[0] * 3.1415927 / 180;
@@ -35,15 +35,15 @@ std::array<float, 16> SRT(std::array<float, 3> scale, std::array<float, 3> rotat
     m[15] = 1.0f;
     return m;
 }
-std::array<float, 16> scale (std::array<float, 3> Scale) { return SRT(Scale, {0,0,0}, {0,0,0}); }
+std::array<float, 16> scale (const std::array<float, 3>& Scale) { return SRT(Scale, {0,0,0}, {0,0,0}); }
 std::array<float, 16> scaleX(float scale) { return SRT({scale,1,1}, {0,0,0}, {0,0,0}); }
 std::array<float, 16> scaleY(float scale) { return SRT({1,scale,1}, {0,0,0}, {0,0,0}); }
 std::array<float, 16> scaleZ(float scale) { return SRT({1,1,scale}, {0,0,0}, {0,0,0}); }
-std::array<float, 16> rotate (std::array<float, 3> rotation) { return SRT({1,1,1}, rotation, {0,0,0}); }
+std::array<float, 16> rotate (const std::array<float, 3>& rotation) { return SRT({1,1,1}, rotation, {0,0,0}); }
 std::array<float, 16> rotateX(float rotation) { return SRT({1,1,1}, {rotation,0,0}, {0,0,0}); }
 std::array<float, 16> rotateY(float rotation) { return SRT({1,1,1}, {0,rotation,0}, {0,0,0}); }
 std::array<float, 16> rotateZ(float rotation) { return SRT({1,1,1}, {0,0,rotation}, {0,0,0}); }
-std::array<float, 16> translate (std::array<float, 3> translation) { return SRT({1,1,1}, {0,0,0}, translation); }
+std::array<float, 16> translate (const std::array<float, 3>& translation) { return SRT({1,1,1}, {0,0,0}, translation); }
 std::array<float, 16> translateX(float translation) { return SRT({1,1,1}, {0,0,0}, {translation,0,0}); }
 std::array<float, 16> translateY(float translation) { return SRT({1,1,1}, {0,0,0}, {0,translation,0}); }
 std::array<float, 16> translateZ(float translation) { return SRT({1,1,1}, {0,0,0}, {0,0,translation}); }
@@ -62,12 +62,9 @@ std::array<float, 16> Projection(float FOV, float aspectRatio, float near, float
     return m;
 }
 
-std::array<float, 3> Normalize(std::array<float, 3> array3){ return array3/std::sqrt(array3[0]*array3[0]+array3[1]*array3[1]+array3[2]*array3[2]); }
-float dotProduct3(std::array<float, 3> array1, std::array<float, 3> array2)
-{
-    return array1[0]*array2[0]+array1[1]*array2[1]+array1[2]*array2[2];
-}
-std::array<float, 3> crossProduct3(std::array<float, 3> leftArray, std::array<float, 3> rightArray)
+std::array<float, 3> Normalize(const std::array<float, 3>& array3){ return array3/std::sqrt(array3[0]*array3[0]+array3[1]*array3[1]+array3[2]*array3[2]); }
+float dotProduct3(const std::array<float, 3>& array1, const std::array<float, 3>& array2){ return array1[0]*array2[0]+array1[1]*array2[1]+array1[2]*array2[2]; }
+std::array<float, 3> crossProduct3(const std::array<float, 3>& leftArray, const std::array<float, 3>& rightArray)
 {
     return {
         leftArray[1]*rightArray[2]-leftArray[2]*rightArray[1],

@@ -2,6 +2,7 @@
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Mathematics.h"
+#include <array>
 
 class Object3D
 {
@@ -10,7 +11,10 @@ class Object3D
         ElementArray ebo;
         VertexArray vao;
         Shader& shader;
-        float scaleX = 1, scaleY = 1, scaleZ = 1, rotationX = 0, rotationY = 0, rotationZ = 0, positionX = 0, positionY = 0, positionZ = 0;
+        // float scaleX = 1, scaleY = 1, scaleZ = 1, rotationX = 0, rotationY = 0, rotationZ = 0, positionX = 0, positionY = 0, positionZ = 0;
+        std::array<float, 3> Scale = {1,1,1};
+        std::array<float, 3> Rotation = {0,0,0};
+        std::array<float, 3> Position = {0,0,0};
         unsigned int indicesNumber;
         Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader);
         void draw();
