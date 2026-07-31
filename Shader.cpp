@@ -87,3 +87,28 @@ void Shader::setTexture(Texture& texture)
 {
     glUniform1i(glGetUniformLocation(program, texture.textureUniformName.c_str()), texture.textureUnit - GL_TEXTURE0);
 }
+void Shader::setMatrix4fv(std::string name, const float* data)
+{
+    bind();
+    glUniformMatrix4fv(glGetUniformLocation(program, name.c_str()), 1, GL_FALSE, data);
+    unbind();
+}
+void Shader::setUniform3fv(std::string name, const float* data)
+{
+    bind();
+    glUniform3fv(glGetUniformLocation(program, name.c_str()), 1, data);
+    unbind();
+}
+
+void Shader::setUniform3fv(std::string name, const float x, const float y, const float z)
+{
+    float data[] = {x,y,z};
+    setUniform3fv(name, data);
+}
+
+void Shader::setFloat(std::string name, const float value)
+{
+    bind();
+    glUniform1f(glGetUniformLocation(program, name.c_str()), value);
+    unbind();
+}

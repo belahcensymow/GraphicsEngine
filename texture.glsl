@@ -19,23 +19,31 @@ void main()
 
 #Fragment Shader
 #version 430 core
+struct Material
+{
+    vec3 ambient;
+    vec3 diffuse;
+    vec3 specular;
+    float shininess;
+};
+uniform Material material;
 in vec3 FragPosView;
 in vec3 NormalView;
 in vec3 LightPosView;
 out vec4 fragColor;
 void main()
 {
-    float ambiantStrength = 0.2f;
-    float specularStrength = 0.5f;
-    vec3 objectColor = vec3(1.0f, 0.5f, 0.31f);
     vec3 lightColor = vec3(1);
+    vec3 ambient = lightColor * material.ambient;
+
     vec3 norm = normalize(NormalView);
-    vec3 ambiant = ambiantStrength * lightColor * objectColor;
     vec3 lightDirection = normalize(LightPosView - FragPosView);
-    vec3 diffuse = max(dot(norm, lightDirection), 0.0) * objectColor;
-    vec3 reflectDirection = reflect(-lightDirection, norm);
+    float diff = max(dot(norm, lightDirection), 0.0);
+    vec3 diffuse = lightColor * diff * material.diffuse;
+
     vec3 viewDirection = normalize(-FragPosView);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), 32.0);
-    vec3 specular = specularStrength * spec * lightColor;
-    fragColor = vec4((ambiant + diffuse + specular), 1.0);
+    vec3 reflectDirection = reflect(-lightDirection, norm);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
+    vec3 specular = lightColor * spec * material.specular;
+    fragColor = vec4((ambient + diffuse + specular), 1.0);
 }

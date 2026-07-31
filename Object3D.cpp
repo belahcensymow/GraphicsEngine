@@ -1,5 +1,6 @@
 #include "Object3D.h"
 #include "Camera.h"
+#include "Shared.h"
 #include "Texture.h"
 #include "Mathematics.h"
 #include <array>
@@ -75,7 +76,7 @@ void Object3D::SRT(float scaleX, float scaleY, float scaleZ, float rotateX, floa
     }
     applySRT();
 }
-void Object3D::SRT(std::array<float, 3> scale, std::array<float, 3> rotation, std::array<float, 3> translation, TRANSFORMATION_TYPE transformationType)
+void Object3D::SRT(const std::array<float, 3>& scale, const std::array<float, 3>& rotation, const std::array<float, 3>& translation, TRANSFORMATION_TYPE transformationType)
 {
     SRT(scale[0], scale[1], scale[2], rotation[0], rotation[1], rotation[2], translation[0], translation[1], translation[2], transformationType);
 }

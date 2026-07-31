@@ -20,4 +20,9 @@ class Shader
         void unbind();
         ~Shader();
         void setTexture(Texture& texture);
+        void setMatrix4fv(std::string name, const float* data);
+        void setUniform3fv(std::string name, const float* data);
+        void setUniform3fv(std::string name, const float x, const float y, const float z);
+        void setFloat(std::string name, const float value);
+
 };

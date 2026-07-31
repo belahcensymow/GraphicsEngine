@@ -97,21 +97,19 @@ int main()
     Object3D cube(vertices, verticesLayout, indices, shader);
     Object3D lightSource(vertices, verticesLayout, indices, lightShader);
     std::array<float, 16> Projection = ::Projection(45, 4.0f/3.0f, 0.1f, 100.0f);
-    cube.translate(0, 0, 0);
-    lightSource.translate(1.2f, 1.0f, 2.0f);
-    lightSource.rotate(45, 30, 0);
-    lightSource.scale(0.2f, 0.2f, 0.2f);
-    shader.bind();
-    glUniformMatrix4fv(glGetUniformLocation(shader.program, "Projection"), 1, GL_FALSE, Projection.data());
-    glUniform3fv(glGetUniformLocation(shader.program, "lightPos"), 1, lightSource.Position.data());
-    shader.unbind();
-    lightShader.bind();
-    glUniformMatrix4fv(glGetUniformLocation(lightShader.program, "Projection"), 1, GL_FALSE, Projection.data());
-    lightShader.unbind();
+    lightSource.SRT({0.2f,0.2f,0.2f},{40.0f,30.0f,0.0f},{1.2f,1.0f,2.0f});
+    shader.setMatrix4fv("Projection", Projection.data());
+    lightShader.setMatrix4fv("Projection", Projection.data());
+    shader.setUniform3fv("lightPos", lightSource.Position.data());
     Texture texture1("container.jpg", "texture1", 0);
     Texture texture2("awesomeface.png", "texture2", 1);
     cube.setTexture(texture1);
     cube.setTexture(texture2);
+
+    shader.setUniform3fv("material.ambient", 1.0f,0.5f,0.31f);
+    shader.setUniform3fv("material.diffuse", 1.0f,0.5f,0.31f);
+    shader.setUniform3fv("material.specular",0.5f,0.5f,0.5f);
+    shader.setFloat("material.shininess", 32.0f);
 
     Camera camera;
     float currentFrame = glfwGetTime();
@@ -128,7 +126,7 @@ int main()
         camera.Rotation[0] = offsetY;
         camera.getInput(shader, window, deltaTime);
         camera.getInput(lightShader, window, deltaTime);
-        // cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0);
+        cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0, ABSOLUTE);
         cube.draw();
         lightSource.draw();
         glfwSwapBuffers(window);
