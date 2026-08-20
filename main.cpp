@@ -5,6 +5,7 @@
 #include "Mathematics.h"
 #include "Object3D.h"
 #include "Camera.h"
+#include "Texture.h"
 
 float lastX = 400, lastY = 300;
 float offsetX, offsetY;
@@ -23,9 +24,9 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     offsetX *= sensitivity;
     offsetY *= sensitivity;
 }
-void framebuffer_size_callback(GLFWwindow* window, int width, int heigth)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width, heigth);
+    glViewport(0, 0, width, height);
 }
 
 int main()
@@ -109,13 +110,13 @@ int main()
     shader.setUniform3fv("lightPos", lightSource.Position.data());
     Texture texture1("container.jpg", "texture1", 0);
     Texture texture2("awesomeface.png", "texture2", 1);
-    cube.setTexture(texture1);
-    cube.setTexture(texture2);
-
-    shader.setUniform3fv("material.ambient", 1.0f,0.5f,0.31f);
-    shader.setUniform3fv("material.diffuse", 1.0f,0.5f,0.31f);
-    shader.setUniform3fv("material.specular",0.5f,0.5f,0.5f);
-    shader.setFloat("material.shininess", 32.0f);
+    Texture boxTexture("container2.png", "material.diffuse", 2);
+    Texture boxTextureSpecular("container2_specular.png", "material.specular", 3);
+    // cube.setTexture(texture1);
+    // cube.setTexture(texture2);
+    cube.setTexture(boxTexture);
+    cube.setTexture(boxTextureSpecular);
+    shader.setFloat("material.shininess", 64.0f);
     shader.setUniform3fv("light.ambient", 0.2f, 0.2f, 0.2f);
     shader.setUniform3fv("light.diffuse", 0.5f, 0.5f, 0.5f);
     shader.setUniform3fv("light.specular", 1.0f, 1.0f, 1.0f);
