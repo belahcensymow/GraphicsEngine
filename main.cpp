@@ -110,6 +110,9 @@ int main()
     shader.setUniform3fv("material.diffuse", 1.0f,0.5f,0.31f);
     shader.setUniform3fv("material.specular",0.5f,0.5f,0.5f);
     shader.setFloat("material.shininess", 32.0f);
+    shader.setFloat("AmbiantStrength", 0.1f);
+    shader.setFloat("DiffuseStrength", 1.0f);
+    shader.setFloat("SpecularStrength", 1.0f);
 
     Camera camera;
     float currentFrame = glfwGetTime();
