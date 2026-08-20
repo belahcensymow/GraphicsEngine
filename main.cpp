@@ -23,11 +23,15 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
     offsetX *= sensitivity;
     offsetY *= sensitivity;
 }
+void framebuffer_size_callback(GLFWwindow* window, int width, int heigth)
+{
+    glViewport(0, 0, width, heigth);
+}
 
 int main()
 {
     if(!glfwInit()) return -1;
-    GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(1200, 950, "OpenGL", NULL, NULL);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -40,6 +44,8 @@ int main()
     glEnable(GL_DEPTH_TEST);
     glewInit();
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glViewport(0, 0, 1200, 950);
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     std::vector<Vertex> vertices = {
         {{-0.5f, -0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {0.0f, 0.0f}},
         {{-0.5f,  0.5f, -0.5f}, {1.0f, 0.5f, 0.31f}, {0.0f,  0.0f, -1.0f},  {0.0f, 1.0f}},
@@ -110,15 +116,16 @@ int main()
     shader.setUniform3fv("material.diffuse", 1.0f,0.5f,0.31f);
     shader.setUniform3fv("material.specular",0.5f,0.5f,0.5f);
     shader.setFloat("material.shininess", 32.0f);
-    shader.setFloat("AmbiantStrength", 0.1f);
-    shader.setFloat("DiffuseStrength", 1.0f);
-    shader.setFloat("SpecularStrength", 1.0f);
+    shader.setUniform3fv("light.ambient", 0.2f, 0.2f, 0.2f);
+    shader.setUniform3fv("light.diffuse", 0.5f, 0.5f, 0.5f);
+    shader.setUniform3fv("light.specular", 1.0f, 1.0f, 1.0f);
 
     Camera camera;
     float currentFrame = glfwGetTime();
     float lastFrame = 0;
     float deltaTime = 0;
     glfwSetCursorPosCallback(window, mouse_callback);
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
