@@ -22,6 +22,7 @@ class Camera
         std::array<float, 3> lookAt(std::array<float, 3> targetPosition);
         void applyView(Shader &shader, std::string uniformName = "View");
         void applyView(Shader &shader);
+        std::array<float, 3> getFront();
         std::array<float, 3> getTargetPosition();
         std::array<float, 16> ViewMatrix();
 

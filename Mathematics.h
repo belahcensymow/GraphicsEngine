@@ -1,6 +1,7 @@
 #pragma once
 #include "Shared.h"
 #include <array>
+#include <cmath>
 
 std::array<float, 16> SRT(const std::array<float, 3>& scale, const std::array<float, 3>& rotation, const std::array<float, 3>& translation);
 std::array<float, 16> scale (const std::array<float, 3>& Scale);
@@ -95,3 +96,6 @@ template<typename T, std::size_t N> void operator/=(std::array<T,N>& leftArray, 
 
 float dotProduct3(const std::array<float, 3>& leftArray, const std::array<float, 3>& rightArray);
 std::array<float, 3> crossProduct3(const std::array<float, 3>& leftArray, const std::array<float, 3>&  rightArray);
+
+template<typename T> T radians(T degrees) { return degrees * 3.14159265f / 180.0f; }
+template<typename T> T degrees(T radians) { return radians * 180.0f / 3.14159265f; }

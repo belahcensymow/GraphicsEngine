@@ -10,7 +10,7 @@ Camera::Camera()
 {
     Position = {0,0,0};
     Rotation = {0,0,0};
-    Scale = {1,1,1};
+    Scale    = {1,1,1};
 }
 void Camera::getInput(Shader &shader, GLFWwindow *window, float &deltaTime)
 {
@@ -36,6 +36,18 @@ std::array<float, 3> Camera::lookAt(std::array<float, 3> targetPosition)
 {
     std::array<float, 3> F = getDirection(targetPosition);
     return  { std::asin(F[1]), std::atan2(F[2],F[0]), 0.0f };
+}
+std::array<float, 3> Camera::getFront()
+{
+    float radPitch = Rotation[0] * 3.14159265f / 180.0f;
+    float radYaw   = Rotation[1] * 3.14159265f / 180.0f;
+    std::array<float, 3> front;
+    front = {
+        cosf(radYaw) * cosf(radPitch),
+        sinf(radPitch),
+        sinf(radYaw) * cosf(radPitch)
+    };
+    return front;
 }
 
 void Camera::applyView(Shader &shader, std::string uniformName)
