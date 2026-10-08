@@ -19,6 +19,12 @@ void Camera::getInput(Shader &shader, GLFWwindow *window, float &deltaTime)
     if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) goBackward();
     if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) goLeft();
     if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) goRight();
+	
+	if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) goForward(1);
+    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) goBackward(1);
+    if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) goLeft(1);
+    if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) goRight(1);
+	
     if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)    lookUp();
     if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)  lookDown();
     if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) lookRight();
