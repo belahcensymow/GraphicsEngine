@@ -10,6 +10,8 @@ Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &ver
 vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shader)
 {
     indicesNumber = indices.size();
+    std::array<float, 16> Projection = ::Projection(45, 4.0f / 3.0f, 0.1f, 100.0f);
+     shader.setMatrix4fv("Projection", Projection.data());
 }
 
 void Object3D::draw()
@@ -97,4 +99,8 @@ void Object3D::translate(float x, float y, float z, TRANSFORMATION_TYPE transfor
     if(transformationType == ABSOLUTE) Position = {x,y,z};
     else Position += {x,y,z};
     applySRT();
+}
+void Object3D::setProjection(float FOV, float aspectRatio, float near, float far)
+{
+    shader.setMatrix4fv("Projection", ::Projection(FOV, aspectRatio, near, far).data());
 }

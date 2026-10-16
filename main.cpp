@@ -200,11 +200,7 @@ int main() {
   Shader lightShader("light.glsl");
   Object3D cube(vertices, verticesLayout, indices, shader);
   Object3D lightSource(vertices, verticesLayout, indices, lightShader);
-  std::array<float, 16> Projection =
-      ::Projection(45, 4.0f / 3.0f, 0.1f, 100.0f);
   lightSource.SRT({0.2f, 0.2f, 0.2f}, {40.0f, 30.0f, 0.0f}, {1.2f, 1.0f, 2.0f});
-  shader.setMatrix4fv("Projection", Projection.data());
-  lightShader.setMatrix4fv("Projection", Projection.data());
   shader.setUniform3fv("lightPos", lightSource.Position.data());
   Texture texture1("container.jpg", "texture1", 0);
   Texture texture2("awesomeface.png", "texture2", 1);
@@ -252,7 +248,6 @@ int main() {
   shader.setFloat("pointLights[3].constant", 1.0f);
   shader.setFloat("pointLights[3].linear", 0.09f);
   shader.setFloat("pointLights[3].quadratic", 0.032f);
-  Camera camera;
 
   shader.setUniform3fv("spotLight.ambient", 0.0f, 0.0f, 0.0f);
   shader.setUniform3fv("spotLight.diffuse", 1.0f, 1.0f, 1.0f);
@@ -263,6 +258,7 @@ int main() {
   shader.setFloat("spotLight.cutOff", std::cosf(radians(12.5f)));
   shader.setFloat("spotLight.outerCutOff", std::cosf(radians(15.0f)));
 
+  Camera camera;
   float currentFrame = glfwGetTime();
   float lastFrame = 0;
   float deltaTime = 0;

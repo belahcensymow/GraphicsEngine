@@ -30,4 +30,5 @@ class Object3D
         void scale(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void rotate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
+        void setProjection(float FOV, float aspectRatio, float near, float far);
 };
