@@ -7,7 +7,7 @@
 #include <vector>
 
 Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader):
-vbo(vertices, verticesLayout), ebo(indices), vao(vbo, ebo), shader(shader)
+vbo(vertices, verticesLayout), ebo(indices) ,vao(vbo, ebo), shader(shader)
 {
     indicesNumber = indices.size();
     std::array<float, 16> Projection = ::Projection(45, 4.0f / 3.0f, 0.1f, 100.0f);
@@ -26,7 +26,6 @@ void Object3D::show()
     ebo.bind();
     vao.bind();
     shader.bind();
-
 }
 void Object3D::hide()
 {

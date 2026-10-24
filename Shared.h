@@ -35,4 +35,11 @@ enum TRANSFORMATION_TYPE
     RELATIVE,
     ABSOLUTE
 };
+
+enum LightType
+{
+    DIRECTIONAL_LIGHT,
+    POINT_LIGHT,
+    SPOT_LIGHT,
+};
 #endif

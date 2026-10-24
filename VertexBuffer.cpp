@@ -18,11 +18,13 @@ unsigned long glSize(unsigned int type)
 VertexBuffer::VertexBuffer(std::vector<Vertex>& vertices, std::vector<VertexLayout>& verticesLayout) : vertices(vertices), verticesLayout(verticesLayout)
 {
     glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
+    unbind();
 }
 void VertexBuffer::bind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), vertices.data(), GL_STATIC_DRAW);
     int stride = 0;
     for (VertexLayout layout : verticesLayout) {
         stride += layout.count * glSize(layout.type);

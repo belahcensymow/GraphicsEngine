@@ -14,7 +14,6 @@
       void VertexArray::bind()
       {
           glBindVertexArray(vao);
-
       }
       void VertexArray::unbind()
       {

@@ -1,9 +1,12 @@
+#pragma once
 #include "Shared.h"
 #include "Texture.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Mathematics.h"
 #include <array>
+#include <optional>
+#include <functional>
 
 class Object3D
 {
@@ -17,6 +20,7 @@ class Object3D
         std::array<float, 3> Rotation = {0,0,0};
         std::array<float, 3> Position = {0,0,0};
         unsigned int indicesNumber;
+        Object3D();
         Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader);
         void draw();
         void show();
@@ -31,4 +35,5 @@ class Object3D
         void rotate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void setProjection(float FOV, float aspectRatio, float near, float far);
+        void defaultDataInit();
 };
