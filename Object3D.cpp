@@ -5,14 +5,13 @@
 #include "Mathematics.h"
 #include <array>
 
-Object3D::Object3D(Mesh& mesh, Shader& shader): mesh(mesh), shader(shader)
+Object3D::Object3D(Mesh& mesh, Shader& shader): mesh(&mesh)
 {
     indicesNumber = mesh.indicesNumber;
-    std::array<float, 16> Projection = ::Projection(45, 4.0f / 3.0f, 0.1f, 100.0f);
-     shader.setMatrix4fv("Projection", Projection.data());
+    setShader(shader);
 }
 
-void Object3D::setShader(Shader& shader) { this->shader = shader; }
+void Object3D::setShader(Shader& shader) { this->shader = &shader; setProjection(); }
 
 void Object3D::draw()
 {
@@ -22,24 +21,24 @@ void Object3D::draw()
 }
 void Object3D::show()
 {
-    mesh.vbo.bind();
-    mesh.ebo.bind();
-    mesh.vao.bind();
-    shader.bind();
+    mesh->vbo.bind();
+    mesh->ebo.bind();
+    mesh->vao.bind();
+    shader->bind();
 }
 void Object3D::hide()
 {
-    mesh.vbo.unbind();
-    mesh.ebo.unbind();
-    mesh.vao.unbind();
-    shader.unbind();
+    mesh->vbo.unbind();
+    mesh->ebo.unbind();
+    mesh->vao.unbind();
+    shader->unbind();
 }
 void Object3D::setTexture(Texture &texture)
 {
-    shader.bind();
-    shader.setTexture(texture);
+    shader->bind();
+    shader->setTexture(texture);
     texture.bind();
-    shader.unbind();
+    shader->unbind();
 }
 void Object3D::removeTexture(Texture &texture)
 {
@@ -47,19 +46,19 @@ void Object3D::removeTexture(Texture &texture)
 }
 void Object3D::applySRT(std::array<float, 16> SRTMatrix, std::string uniformName)
 {
-    shader.bind();
-    int location = glGetUniformLocation(shader.program, uniformName.c_str());
+    shader->bind();
+    int location = glGetUniformLocation(shader->program, uniformName.c_str());
     glUniformMatrix4fv(location, 1, GL_FALSE, SRTMatrix.data());
-    shader.unbind();
+    shader->unbind();
 }
 void Object3D::applySRT()
 {
-    shader.bind();
+    shader->bind();
     std::array<float, 16> SRTMatrix;
     SRTMatrix = ::SRT(Scale, Rotation, Position);
-    int location = glGetUniformLocation(shader.program, "Model");
+    int location = glGetUniformLocation(shader->program, "Model");
     glUniformMatrix4fv(location, 1, GL_FALSE, SRTMatrix.data());
-    shader.unbind();
+    shader->unbind();
 }
 void Object3D::SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ, TRANSFORMATION_TYPE transformationType)
 {
@@ -99,7 +98,5 @@ void Object3D::translate(float x, float y, float z, TRANSFORMATION_TYPE transfor
     else Position += {x,y,z};
     applySRT();
 }
-void Object3D::setProjection(float FOV, float aspectRatio, float near, float far)
-{
-    shader.setMatrix4fv("Projection", ::Projection(FOV, aspectRatio, near, far).data());
-}
+void Object3D::setProjection(const ProjectionParameters& p) {projectionParameters = p; setProjection(); }
+void Object3D::setProjection() { shader->setMatrix4fv("Projection", ::Projection(projectionParameters).data()); }

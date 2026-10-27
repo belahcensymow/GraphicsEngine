@@ -7,11 +7,12 @@
 class Object3D
 {
     public:
-        Mesh& mesh;
-        Shader& shader;
+        Mesh* mesh = nullptr;
+        Shader* shader = nullptr;
         std::array<float, 3> Scale = {1,1,1};
         std::array<float, 3> Rotation = {0,0,0};
         std::array<float, 3> Position = {0,0,0};
+        ProjectionParameters projectionParameters = {};
         unsigned int indicesNumber;
         Object3D();
         Object3D(Mesh& mesh, Shader& shader);
@@ -27,7 +28,8 @@ class Object3D
         void scale(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void rotate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
-        void setProjection(float FOV, float aspectRatio, float near, float far);
+        void setProjection(const ProjectionParameters& p);
+        void setProjection();
         void defaultDataInit();
         void setShader(Shader& shader);
 };

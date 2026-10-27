@@ -41,4 +41,12 @@ enum LightType
     POINT_LIGHT,
     SPOT_LIGHT,
 };
+
+struct ProjectionParameters
+{
+    float FOV = 45;
+    float aspectRatio = 4.0f/3.0f;
+    float near = 0.1f;
+    float far = 100.0f;
+};
 #endif

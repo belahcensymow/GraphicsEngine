@@ -1,4 +1,5 @@
 #include "Mathematics.h"
+#include "Shared.h"
 #include "math.h"
 #include <array>
 std::array<float, 16> SRT(const std::array<float, 3>& scale, const std::array<float, 3>& rotation, const std::array<float, 3>& translation)
@@ -61,7 +62,7 @@ std::array<float, 16> Projection(float FOV, float aspectRatio, float near, float
     m[14] = -(2.0f * far * near) / (far - near);
     return m;
 }
-
+std::array<float, 16> Projection(const ProjectionParameters& p) { return ::Projection(p.FOV, p.aspectRatio, p.near, p.far);}
 std::array<float, 3> Normalize(const std::array<float, 3>& array3){ return array3/std::sqrt(array3[0]*array3[0]+array3[1]*array3[1]+array3[2]*array3[2]); }
 float dotProduct3(const std::array<float, 3>& array1, const std::array<float, 3>& array2){ return array1[0]*array2[0]+array1[1]*array2[1]+array1[2]*array2[2]; }
 std::array<float, 3> crossProduct3(const std::array<float, 3>& leftArray, const std::array<float, 3>& rightArray)

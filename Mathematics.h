@@ -18,6 +18,7 @@ std::array<float, 16> translateY(float translation);
 std::array<float, 16> translateZ(float translation);
 
 std::array<float, 16> Projection(float FOV, float aspectRatio, float near, float far);
+std::array<float, 16> Projection(const ProjectionParameters& p);
 std::array<float, 3> Normalize(const std::array<float, 3>& array3);
 float dotProduct3(const std::array<float, 3>& array1, const std::array<float, 3>& array2);
 std::array<float, 3> crossProduct3(const std::array<float, 3>& leftArray, const std::array<float, 3>& rightArray);
