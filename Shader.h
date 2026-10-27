@@ -1,4 +1,4 @@
-#include <string>
+#include "Shared.h"
 #include "Texture.h"
 
 class Shader

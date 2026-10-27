@@ -1,6 +1,6 @@
 TARGET   = app.out
 CXX      = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -O2 -MMD -MP
+CXXFLAGS = -std=c++26 -Wall -Wextra -O2 -MMD -MP
 LIBS     = -lGLEW -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl
 
 SRCS     = $(wildcard *.cpp)

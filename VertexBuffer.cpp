@@ -26,13 +26,15 @@ void VertexBuffer::bind()
 {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     int stride = 0;
-    for (VertexLayout layout : verticesLayout) {
+
+    for (const VertexLayout& layout : verticesLayout) {
         stride += layout.count * glSize(layout.type);
     }
     unsigned long offset = 0;
-    for (VertexLayout layout : verticesLayout) {
-        glVertexAttribPointer(layout.location, layout.count, layout.type, GL_FALSE, stride, (void*)offset);
-        glEnableVertexAttribArray(layout.location);
+    unsigned int location = 0;
+    for (const VertexLayout& layout : verticesLayout) {
+        glVertexAttribPointer(location, layout.count, layout.type, GL_FALSE, stride, (void*)offset);
+        glEnableVertexAttribArray(location++);
         offset += layout.count * glSize(layout.type);
     }
 }

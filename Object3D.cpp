@@ -4,15 +4,15 @@
 #include "Texture.h"
 #include "Mathematics.h"
 #include <array>
-#include <vector>
 
-Object3D::Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader):
-vbo(vertices, verticesLayout), ebo(indices) ,vao(vbo, ebo), shader(shader)
+Object3D::Object3D(Mesh& mesh, Shader& shader): mesh(mesh), shader(shader)
 {
-    indicesNumber = indices.size();
+    indicesNumber = mesh.indicesNumber;
     std::array<float, 16> Projection = ::Projection(45, 4.0f / 3.0f, 0.1f, 100.0f);
      shader.setMatrix4fv("Projection", Projection.data());
 }
+
+void Object3D::setShader(Shader& shader) { this->shader = shader; }
 
 void Object3D::draw()
 {
@@ -22,16 +22,16 @@ void Object3D::draw()
 }
 void Object3D::show()
 {
-    vbo.bind();
-    ebo.bind();
-    vao.bind();
+    mesh.vbo.bind();
+    mesh.ebo.bind();
+    mesh.vao.bind();
     shader.bind();
 }
 void Object3D::hide()
 {
-    vbo.unbind();
-    ebo.unbind();
-    vao.unbind();
+    mesh.vbo.unbind();
+    mesh.ebo.unbind();
+    mesh.vao.unbind();
     shader.unbind();
 }
 void Object3D::setTexture(Texture &texture)

@@ -3,6 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <cstddef>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -10,17 +11,15 @@
 
 struct Vertex
 {
-    float coordinates[3];
-    float color[3];
-    float normal[3];
-    float texture[2];
+    std::array<float, 3> Position;
+    std::array<float, 3> Normal;
+    std::array<float, 2> TexCoords;
 };
 
 struct VertexLayout
 {
     unsigned int count;
     int type;
-    int location;
 };
 
 enum ShaderType

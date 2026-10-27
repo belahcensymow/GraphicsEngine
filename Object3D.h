@@ -1,27 +1,20 @@
 #pragma once
 #include "Shared.h"
-#include "Texture.h"
-#include "VertexArray.h"
-#include "Shader.h"
 #include "Mathematics.h"
 #include <array>
-#include <optional>
-#include <functional>
+#include "Mesh.h"
 
 class Object3D
 {
     public:
-        VertexBuffer vbo;
-        ElementArray ebo;
-        VertexArray vao;
+        Mesh& mesh;
         Shader& shader;
-        // float scaleX = 1, scaleY = 1, scaleZ = 1, rotationX = 0, rotationY = 0, rotationZ = 0, positionX = 0, positionY = 0, positionZ = 0;
         std::array<float, 3> Scale = {1,1,1};
         std::array<float, 3> Rotation = {0,0,0};
         std::array<float, 3> Position = {0,0,0};
         unsigned int indicesNumber;
         Object3D();
-        Object3D(std::vector<Vertex> &vertices, std::vector<VertexLayout> &verticesLayout, std::vector<unsigned int> &indices, Shader& shader);
+        Object3D(Mesh& mesh, Shader& shader);
         void draw();
         void show();
         void hide();
@@ -36,4 +29,5 @@ class Object3D
         void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void setProjection(float FOV, float aspectRatio, float near, float far);
         void defaultDataInit();
+        void setShader(Shader& shader);
 };
