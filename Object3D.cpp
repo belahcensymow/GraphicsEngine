@@ -1,13 +1,14 @@
 #include "Object3D.h"
 #include "Camera.h"
+#include "Mesh.h"
 #include "Shared.h"
 #include "Texture.h"
 #include "Mathematics.h"
 #include <array>
+#include <sys/types.h>
 
-Object3D::Object3D(Mesh& mesh, Shader& shader): mesh(&mesh)
+Object3D::Object3D(Model& model, Shader& shader): model(&model)
 {
-    indicesNumber = mesh.indicesNumber;
     setShader(shader);
 }
 
@@ -17,20 +18,27 @@ void Object3D::draw()
 {
     applySRT();
     show();
-    glDrawElements(GL_TRIANGLES, indicesNumber, GL_UNSIGNED_INT, NULL);
+    for (Mesh mesh : model->meshes) glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
+
 }
 void Object3D::show()
 {
-    mesh->vbo.bind();
-    mesh->ebo.bind();
-    mesh->vao.bind();
+    for (Mesh mesh : model->meshes)
+    {
+        mesh.vbo.bind();
+        mesh.ebo.bind();
+        mesh.vao.bind();
+    }
     shader->bind();
 }
 void Object3D::hide()
 {
-    mesh->vbo.unbind();
-    mesh->ebo.unbind();
-    mesh->vao.unbind();
+    for (Mesh mesh : model->meshes)
+    {
+        mesh.vbo.unbind();
+        mesh.ebo.unbind();
+        mesh.vao.unbind();
+    }
     shader->unbind();
 }
 void Object3D::setTexture(Texture &texture)

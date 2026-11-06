@@ -3,11 +3,12 @@
 #include "Mathematics.h"
 #include <array>
 #include "Mesh.h"
+#include "Model.h"
 
 class Object3D
 {
     public:
-        Mesh* mesh = nullptr;
+        Model* model = nullptr;
         Shader* shader = nullptr;
         std::array<float, 3> Scale = {1,1,1};
         std::array<float, 3> Rotation = {0,0,0};
@@ -16,6 +17,7 @@ class Object3D
         unsigned int indicesNumber;
         Object3D();
         Object3D(Mesh& mesh, Shader& shader);
+        Object3D(Model& model, Shader& shader);
         void draw();
         void show();
         void hide();

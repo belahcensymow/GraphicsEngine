@@ -91,8 +91,9 @@ int main() {
   Shader shader("texture.glsl");
   Shader lightShader("light.glsl");
   Mesh cubeMesh(vertices, verticesLayout, indices);
-  Object3D cube(cubeMesh, shader);
-  Object3D lightSource(cubeMesh , lightShader);
+  Model cubeModel(cubeMesh);
+  Object3D cube(cubeModel, shader);
+  Object3D lightSource(cubeModel , lightShader);
   lightSource.SRT({0.2f, 0.2f, 0.2f}, {40.0f, 30.0f, 0.0f}, {1.2f, 1.0f, 2.0f});
   shader.setUniform3fv("lightPos", lightSource.Position.data());
   Texture texture1("container.jpg", "texture1", 0);

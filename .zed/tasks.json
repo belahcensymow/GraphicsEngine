@@ -58,7 +58,7 @@
   },
   {
     "label": "Compile and Run GLFW/GLEW C++",
-    "command": "g++ *.cpp -lglfw -lGLEW -lGL -o $ZED_STEM && ./$ZED_STEM",
+    "command": "g++ *.cpp -lglfw -lGLEW -lGL -lassimp -o $ZED_STEM && ./$ZED_STEM",
     "tags": ["c-main"],
     "use_new_terminal": false,
     "allow_concurrent_runs": false,
