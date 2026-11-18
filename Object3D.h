@@ -21,7 +21,7 @@ class Object3D
         void draw();
         void show();
         void hide();
-        void setTexture(Texture &texture);
+        void setTexture(Texture &texture, int location);
         void removeTexture(Texture &texture);
         void applySRT(std::array<float, 16> SRTMatrix, std::string uniformName);
         void applySRT();

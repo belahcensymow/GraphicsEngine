@@ -11,9 +11,9 @@
 
 struct Vertex
 {
-    std::array<float, 3> Position;
-    std::array<float, 3> Normal;
-    std::array<float, 2> TexCoords;
+    std::array<float, 3> Position = {0.0f, 0.0f, 0.0f};
+    std::array<float, 3> Normal = {0.0f, 0.0f, 0.0f};
+    std::array<float, 2> TexCoords = {0.0f, 0.0f};
 };
 
 struct VertexLayout

@@ -18,12 +18,12 @@ void Object3D::draw()
 {
     applySRT();
     show();
-    for (Mesh mesh : model->meshes) glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
+    for (Mesh& mesh : model->meshes) glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
 
 }
 void Object3D::show()
 {
-    for (Mesh mesh : model->meshes)
+    for (Mesh& mesh : model->meshes)
     {
         mesh.vbo.bind();
         mesh.ebo.bind();
@@ -33,7 +33,7 @@ void Object3D::show()
 }
 void Object3D::hide()
 {
-    for (Mesh mesh : model->meshes)
+    for (Mesh& mesh : model->meshes)
     {
         mesh.vbo.unbind();
         mesh.ebo.unbind();
@@ -41,11 +41,11 @@ void Object3D::hide()
     }
     shader->unbind();
 }
-void Object3D::setTexture(Texture &texture)
+void Object3D::setTexture(Texture &texture, int location)
 {
     shader->bind();
     shader->setTexture(texture);
-    texture.bind();
+    texture.bind(location);
     shader->unbind();
 }
 void Object3D::removeTexture(Texture &texture)

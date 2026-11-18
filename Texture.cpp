@@ -3,24 +3,14 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-Texture::Texture(std::string texturePath, std::string uniformName, int location)
+Texture::Texture(std::string texturePath, std::string uniformName)
 {
+    this->texturePath = texturePath;
     textureUniformName = uniformName;
-    if(location == -1)
-    {
-        textureUnit = GL_TEXTURE0;
-        while(textureUnitIsTaken(textureUnit))
-        {
-            std::cout << "This shouldn't be hit yet!" << std::endl;
-            textureUnit ++;
-        }
-    }
-    else
-    {
-        textureUnit = GL_TEXTURE0 + location;
-    }
+    int currentlyBoundTexture;
+    glGetIntegerv(GL_TEXTURE_BINDING_2D, &currentlyBoundTexture);
     glGenTextures(1, &texture);
-    bind();
+    glBindTexture(GL_TEXTURE_2D, texture);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
@@ -35,11 +25,12 @@ Texture::Texture(std::string texturePath, std::string uniformName, int location)
         stbi_image_free(data);
     }
     else std::cout << "[ ERROR ] Failed to load texture" << std::endl;
-    unbind();
+    glBindTexture(GL_TEXTURE_2D, currentlyBoundTexture);
 }
 
-void Texture::bind()
+void Texture::bind(int location)
 {
+    textureUnit = GL_TEXTURE0 + location;
     glActiveTexture(textureUnit);
     glBindTexture(GL_TEXTURE_2D, texture);
 }
@@ -50,19 +41,8 @@ void Texture::unbind()
     glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-bool textureUnitIsTaken(int location)
+Texture::~Texture()
 {
-    int previousActiveTexture;
-    glGetIntegerv(GL_ACTIVE_TEXTURE, &previousActiveTexture);
-    glActiveTexture(location);
-    int state;
-    glGetIntegerv(GL_TEXTURE_BINDING_2D, &state);
-    glActiveTexture(previousActiveTexture);
-    if(state != 0)
-    {
-        std::cout << "[ WARNING ] Texture unit is already in use, you are overriding an existing texture '"
-                  << location - GL_TEXTURE0 << "'!" << std::endl;
-        return true;
-    }
-    return false;
+    std::cout << "Deleting Texture id: " << texture << std::endl;
+    glDeleteTextures(1, &texture);
 }

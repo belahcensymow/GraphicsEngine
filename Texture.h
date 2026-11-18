@@ -7,8 +7,9 @@ class Texture
         unsigned int texture;
         int textureUnit;
         std::string textureUniformName;
-        Texture(std::string texturePath, std::string uniformName, int location = -1);
-        void bind();
+        std::string texturePath;
+        Texture(std::string texturePath, std::string uniformName);
+        ~Texture();
+        void bind(int location);
         void unbind();
 };
-        bool textureUnitIsTaken(int location);
