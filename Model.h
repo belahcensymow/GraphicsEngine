@@ -25,15 +25,4 @@ class Model
         void addTexture(Texture& texture);
         void setTexture(Shader &shader, Texture &texture, int location);
         void removeTexture(Texture &texture);
-
-        std::array<float, 3> Scale = {1,1,1};
-        std::array<float, 3> Rotation = {0,0,0};
-        std::array<float, 3> Position = {0,0,0};
-        void applySRT(std::array<float, 16> SRTMatrix, std::string uniformName);
-        void applySRT();
-        void SRT(float scaleX, float scaleY, float scaleZ, float rotateX, float rotateY, float rotateZ, float translateX, float translateY, float translateZ, TRANSFORMATION_TYPE transformationType = RELATIVE);
-        void SRT(const std::array<float, 3>& scale, const std::array<float, 3>& rotation, const std::array<float, 3>& translation, TRANSFORMATION_TYPE transformationType = RELATIVE);
-        void scale(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
-        void rotate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
-        void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
 };
