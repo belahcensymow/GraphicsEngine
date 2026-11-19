@@ -7,38 +7,25 @@
 #include <array>
 #include <sys/types.h>
 
-Object3D::Object3D(Model& model, Shader& shader): model(&model)
-{
-    setShader(shader);
-}
+Object3D::Object3D(Model& model, Shader& shader): model(&model) { setShader(shader); }
 
 void Object3D::setShader(Shader& shader) { this->shader = &shader; setProjection(); }
+void Object3D::setModel(Model& model) { this->model = &model; }
 
 void Object3D::draw()
 {
     applySRT();
-    show();
-    for (Mesh& mesh : model->meshes) glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
-
+    model->draw(*shader);
+    // for (Mesh& mesh : model->meshes) glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
 }
-void Object3D::show()
+void Object3D::bind()
 {
-    for (Mesh& mesh : model->meshes)
-    {
-        mesh.vbo.bind();
-        mesh.ebo.bind();
-        mesh.vao.bind();
-    }
+    for (Mesh& mesh : model->meshes) mesh.vao.bind();
     shader->bind();
 }
-void Object3D::hide()
+void Object3D::unbind()
 {
-    for (Mesh& mesh : model->meshes)
-    {
-        mesh.vbo.unbind();
-        mesh.ebo.unbind();
-        mesh.vao.unbind();
-    }
+    for (Mesh& mesh : model->meshes) mesh.vao.unbind();
     shader->unbind();
 }
 void Object3D::setTexture(Texture &texture, int location)

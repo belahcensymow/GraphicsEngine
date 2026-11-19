@@ -38,6 +38,8 @@ int main() {
   }
   glfwMakeContextCurrent(window);
   glEnable(GL_DEPTH_TEST);
+  // glEnable(GL_BLEND);
+  // glBlendFunc(GL_BLEND_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
   glewInit();
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
   glViewport(0, 0, 1200, 950);
@@ -88,31 +90,24 @@ int main() {
       {3, GL_FLOAT},
       {2, GL_FLOAT},
   };
+  Shader shader("texture.glsl");
+  Shader lightShader("light.glsl");
   Mesh cubeMesh(vertices, verticesLayout, indices);
   Model cubeModel(cubeMesh);
   Model backpackModel("resources/backpack/backpack.obj");
-  Shader shader("texture.glsl");
-  Shader lightShader("light.glsl");
-  // Object3D cube(cubeModel, shader);
-  Object3D lightSource(cubeModel , lightShader);
+  Object3D backpack(backpackModel, shader);
+  Object3D cube(cubeModel, shader);
+  Object3D lightSource(cubeModel, lightShader);
   lightSource.SRT({0.2f, 0.2f, 0.2f}, {40.0f, 30.0f, 0.0f}, {1.2f, 1.0f, 2.0f});
   shader.setUniform3fv("lightPos", lightSource.Position.data());
-  // Texture boxTexture("resources/container2.png", "material.Diffuse");
-  // Texture boxTextureSpecular("resources/container2_specular.png", "material.Specular");
-  // cube.setTexture(boxTexture,2);
-  // cube.setTexture(boxTextureSpecular,3);
-    shader.setFloat("material.Shininess", 64.0f);
-
+  Texture boxTexture("resources/container2.png", "material.Diffuse");
+  Texture boxTextureSpecular("resources/container2_specular.png", "material.Specular");
+  shader.setFloat("material.Shininess", 64.0f);
   shader.setUniform3fv("dirLight.Ambient", 0.2f, 0.2f, 0.2f);
   shader.setUniform3fv("dirLight.Diffuse", 0.5f, 0.5f, 0.5f);
   shader.setUniform3fv("dirLight.Specular", 1.0f, 1.0f, 1.0f);
   shader.setUniform3fv("dirLight.Direction", -0.2f, -1.0f, -0.3f);
-
-  std::array<float, 3> pointLightsPositions[] = {{0.7f, 0.2f, 2.0f},
-                                                 {2.3f, -3.3f, -4.0f},
-                                                 {-4.0f, 2.0f, -12.0f},
-                                                 {0.0f, 0.0f, -3.0f}};
-
+  std::array<float, 3> pointLightsPositions[] = {{0.7f, 0.2f, 2.0f}, {2.3f, -3.3f, -4.0f}, {-4.0f, 2.0f, -12.0f}, {0.0f, 0.0f, -3.0f}};
   shader.setUniform3fv("pointLights[0].Position", pointLightsPositions[0].data());
   shader.setUniform3fv("pointLights[0].Ambient", 0.05f, 0.05f, 0.05f);
   shader.setUniform3fv("pointLights[0].Diffuse", 0.8f, 0.8f, 0.8f);
@@ -141,7 +136,6 @@ int main() {
   shader.setFloat("pointLights[3].Constant", 1.0f);
   shader.setFloat("pointLights[3].Linear", 0.09f);
   shader.setFloat("pointLights[3].Quadratic", 0.032f);
-
   shader.setUniform3fv("spotLight.Ambient", 0.0f, 0.0f, 0.0f);
   shader.setUniform3fv("spotLight.Diffuse", 1.0f, 1.0f, 1.0f);
   shader.setUniform3fv("spotLight.Specular", 1.0f, 1.0f, 1.0f);
@@ -172,20 +166,15 @@ int main() {
     camera.Rotation[0] = offsetY;
     camera.getInput(shader, window, deltaTime);
     camera.getInput(lightShader, window, deltaTime);
-    float identity[16] = {1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1};
-    shader.setMatrix4fv("Model", identity);
-    shader.setMatrix4fv("Projection", ::Projection(ProjectionParameters{}).data());
     for (auto position : cubePositions) {
-      // cube.translate(position[0], position[1], position[2], ABSOLUTE);
-      // cube.rotate(20 * position[0], 20 * position[1], 20 * position[2], ABSOLUTE);
-      // cube.setTexture(boxTexture,2);
-      // cube.setTexture(boxTextureSpecular,3);
-      // cube.applySRT();
-      // cube.draw();
+      cube.translate(position[0], position[1], position[2], ABSOLUTE);
+      cube.rotate(20 * position[0], 20 * position[1], 20 * position[2], ABSOLUTE);
+      cube.setTexture(boxTexture, 2);
+      cube.setTexture(boxTextureSpecular, 3);
+      cube.draw();
     }
-      // cubeModel.Draw(shader);
     // cube.rotate(glfwGetTime()*10, glfwGetTime()*15, 0, ABSOLUTE);
-    backpackModel.Draw(shader);
+    backpack.draw();
     lightSource.draw();
     glfwSwapBuffers(window);
     glfwPollEvents();

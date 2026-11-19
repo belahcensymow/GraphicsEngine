@@ -77,15 +77,13 @@ Mesh Model::processMesh(aiMesh *mesh, const aiScene *scene)
 
 void Model::loadMaterialTextures(aiMaterial *material, aiTextureType type)
 {
-    // std::vector<Texture> textures;
     for(unsigned int i = 0; i < material->GetTextureCount(type); i++)
     {
         aiString filename;
         material->GetTexture(type, i, &filename);
         std::string texturePath = directory + "/" + filename.C_Str();
         bool skip = false;
-        for (Texture& texture: textures_loaded)
-            if (texture.texturePath == texturePath) { skip = true; break; }
+        for (Texture& texture: textures_loaded) if (texture.texturePath == texturePath) { skip = true; break; }
         if(!skip)
         {
             std::string uniformName = std::string("material.") + aiTextureTypeToString(type);
@@ -95,7 +93,7 @@ void Model::loadMaterialTextures(aiMaterial *material, aiTextureType type)
     }
 }
 
-void Model::Draw(Shader &shader)
+void Model::draw(Shader &shader)
 {
     shader.bind();
     unsigned int i = 0;
@@ -110,6 +108,7 @@ void Model::Draw(Shader &shader)
         shader.bind();
         glDrawElements(GL_TRIANGLES, mesh.indicesNumber, GL_UNSIGNED_INT, NULL);
         shader.unbind();
+        mesh.vao.unbind();
     }
 }
 

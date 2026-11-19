@@ -1,26 +1,25 @@
 #pragma once
-#include "Shared.h"
 #include "Mathematics.h"
 #include <array>
+#include <memory>
 #include "Mesh.h"
 #include "Model.h"
 
 class Object3D
 {
     public:
-        Model* model = nullptr;
-        Shader* shader = nullptr;
+        Model* model;
+        Shader* shader;
         std::array<float, 3> Scale = {1,1,1};
         std::array<float, 3> Rotation = {0,0,0};
         std::array<float, 3> Position = {0,0,0};
         ProjectionParameters projectionParameters = {};
         unsigned int indicesNumber;
-        Object3D();
-        Object3D(Mesh& mesh, Shader& shader);
+        // Object3D();
         Object3D(Model& model, Shader& shader);
         void draw();
-        void show();
-        void hide();
+        void bind();
+        void unbind();
         void setTexture(Texture &texture, int location);
         void removeTexture(Texture &texture);
         void applySRT(std::array<float, 16> SRTMatrix, std::string uniformName);
@@ -32,6 +31,7 @@ class Object3D
         void translate(float x, float y, float z, TRANSFORMATION_TYPE transformationType = RELATIVE);
         void setProjection(const ProjectionParameters& p);
         void setProjection();
-        void defaultDataInit();
+        void defaultModel();
         void setShader(Shader& shader);
+        void setModel(Model& model);
 };

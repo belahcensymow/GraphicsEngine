@@ -1,3 +1,4 @@
+#include "Mathematics.h"
 #include "Shared.h"
 #include "Shader.h"
 #include <fstream>
@@ -6,6 +7,7 @@
 Shader::Shader(std::string shaderPath) {
   Shader::shaderPath = shaderPath;
   Shader::recompileShaders();
+  setMatrix4fv("Projection", Projection(ProjectionParameters{}).data());
 }
 void Shader::recompileShaders() {
   std::ifstream file(this->shaderPath);
